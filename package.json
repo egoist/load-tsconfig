@@ -19,7 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "@egoist/prettier-config": "1.0.0",
-    "@types/node": "^14.0.0",
+    "@types/node": "16.11.21",
     "kanpai": "^0.10.1",
     "prettier": "2.5.1",
     "strip-json-comments": "4.0.0",
