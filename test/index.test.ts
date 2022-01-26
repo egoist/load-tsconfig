@@ -18,7 +18,7 @@ test("paths", () => {
 
 test("extends package", () => {
   const cwd = fixture("extends-package")
-  const loaded = loadTsConfig(cwd, "./tsconfig-a.json")
+  const loaded = loadTsConfig(cwd, "tsconfig-a.json")
 
   expect(loaded?.files.map((file) => path.relative(cwd, file))).toEqual([
     "node_modules/tsconfig-pkg-a/tsconfig.json",

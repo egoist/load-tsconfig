@@ -30,7 +30,7 @@ const loaded = loadTsConfig(".")
 By default it loads `./tsconfig.json`, but you can use a custom filename:
 
 ```ts
-loadTsConfig(".", "./tsconfig.build.json")
+loadTsConfig(".", "tsconfig.build.json")
 ```
 
 Full type documentation: https://paka.dev/npm/load-tsconfig
