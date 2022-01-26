@@ -19,7 +19,13 @@ const findUp = (
   return null
 }
 
-const resolveTsConfig = (cwd: string, name: string) => {
+const resolveTsConfigFromFile = (cwd: string, filename: string) => {
+  if (path.isAbsolute(filename))
+    return fs.existsSync(filename) ? filename : null
+  return findUp(filename, cwd)
+}
+
+const resolveTsConfigFromExtends = (cwd: string, name: string) => {
   if (path.isAbsolute(name)) return fs.existsSync(name) ? name : null
   if (name.startsWith(".")) return findUp(name, cwd)
   const id = require.resolve(name, { paths: [cwd] })
@@ -35,24 +41,20 @@ export type Loaded = {
   files: string[]
 }
 
-export const loadTsConfig = (
+const loadTsConfigInternal = (
   dir = process.cwd(),
-  /**
-   * name should be an absolute path, a relative path, or a package
-   * @example './tsconfig.json'
-   * @example '/path/to/tsconfig.json'
-   * @example '@scope/tsconfig'
-   * @example 'my-tsconfig'
-   */
-  name = "./tsconfig.json",
-  /** @private */
-  __files: string[] = [],
+  name = "tsconfig.json",
+  files: string[] = [],
+  isExtends = false,
 ): Loaded | null => {
-  const id = resolveTsConfig(path.resolve(dir), name)
+  dir = path.resolve(dir)
+  const id = isExtends
+    ? resolveTsConfigFromExtends(dir, name)
+    : resolveTsConfigFromFile(dir, name)
   if (!id) return null
 
   const data = jsoncParse(fs.readFileSync(id, "utf-8"))
-  __files.unshift(id)
+  files.unshift(id)
   const configDir = path.dirname(id)
   if (data.compilerOptions?.baseUrl) {
     data.compilerOptions.baseUrl = path.join(
@@ -61,7 +63,12 @@ export const loadTsConfig = (
     )
   }
   if (data.extends) {
-    const parentConfig = loadTsConfig(configDir, data.extends, __files)
+    const parentConfig = loadTsConfigInternal(
+      configDir,
+      data.extends,
+      files,
+      true,
+    )
     if (parentConfig) {
       Object.assign(data, {
         ...parentConfig.data,
@@ -74,5 +81,8 @@ export const loadTsConfig = (
     }
   }
   delete data.extends
-  return { path: id, data, files: __files }
+  return { path: id, data, files }
 }
+
+export const loadTsConfig = (dir: string, name?: string) =>
+  loadTsConfigInternal(dir, name)

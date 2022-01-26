@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-No unreleased changes.
+- Allow to provide custom filename without a leading `./`, i.e. `loadTsConfig('.', 'tsconfig.build.json')` works now.
 
 ## 0.2.0
 
