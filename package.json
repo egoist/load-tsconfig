@@ -1,6 +1,6 @@
 {
   "name": "load-tsconfig",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Load tsconfig.json",
   "publishConfig": {
     "access": "public"
