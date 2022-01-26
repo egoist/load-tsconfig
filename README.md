@@ -27,7 +27,19 @@ const loaded = loadTsConfig(".")
 // loaded.files -> all discovered tsconfig files (via "extends")
 ```
 
-Full documentation: https://paka.dev/npm/load-tsconfig
+By default it loads `./tsconfig.json`, but you can use a custom filename:
+
+```ts
+loadTsConfig(".", "./tsconfig.build.json")
+```
+
+You can also load a package:
+
+```ts
+loadTsConfig(".", "my-tsconfig-package")
+```
+
+Full type documentation: https://paka.dev/npm/load-tsconfig
 
 ## Sponsors
 
