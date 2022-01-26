@@ -2,9 +2,23 @@ import path from "path"
 import fs from "fs"
 import { jsoncParse } from "./utils"
 
+const findUp = (
+  name: string,
+  startDir: string,
+  stopDir = path.parse(startDir).root,
+) => {
+  let dir = startDir
+  while (dir !== stopDir) {
+    const file = path.join(dir, name)
+    if (fs.existsSync(file)) return file
+    dir = path.dirname(dir)
+  }
+  return null
+}
+
 const resolveTsConfig = (cwd: string, name: string) => {
-  if (path.isAbsolute(name)) return name
-  if (name.startsWith(".")) return path.join(cwd, name)
+  if (path.isAbsolute(name)) return fs.existsSync(name) ? name : null
+  if (name.startsWith(".")) return findUp(name, cwd)
   const id = require.resolve(name, { paths: [cwd] })
   return id
 }

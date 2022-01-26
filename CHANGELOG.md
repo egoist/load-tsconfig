@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-No unreleased changes.
+- Loading the nearest `tsconfig.json`
 
 ## 0.1.1
 

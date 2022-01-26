@@ -25,3 +25,7 @@ test("extends package", () => {
     "tsconfig-a.json",
   ])
 })
+
+test("find nearest file", () => {
+  expect(loadTsConfig(fixture("find-nearest/nested/dir"))).not.toBe(null)
+})
