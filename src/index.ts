@@ -1,6 +1,9 @@
 import path from "path"
 import fs from "fs"
+import { createRequire } from "module"
 import { jsoncParse } from "./utils"
+
+const require = createRequire(import.meta.url)
 
 const findUp = (
   name: string,

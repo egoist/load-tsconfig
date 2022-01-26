@@ -1,6 +1,6 @@
 import path from "path"
 import { test, expect } from "vitest"
-import { loadTsConfig } from "../src"
+import { loadTsConfig } from "../dist"
 
 const fixture = (name: string) => path.join(__dirname, "fixtures", name)
 

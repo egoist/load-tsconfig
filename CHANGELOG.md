@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-No unreleased changes.
+- Release as pure ESM package.
 
 ## 0.1.2
 
