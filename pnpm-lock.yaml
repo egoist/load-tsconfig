@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@egoist/prettier-config': 1.0.0
+  '@types/node': ^14.0.0
   kanpai: ^0.10.1
   prettier: 2.5.1
   strip-json-comments: 4.0.0
@@ -11,6 +12,7 @@ specifiers:
 
 devDependencies:
   '@egoist/prettier-config': 1.0.0
+  '@types/node': 14.18.9
   kanpai: 0.10.1
   prettier: 2.5.1
   strip-json-comments: 4.0.0
@@ -71,6 +73,10 @@ packages:
 
   /@types/chai/4.3.0:
     resolution: {integrity: sha512-/ceqdqeRraGolFTcfoXNiqjyQhZzbINDngeoAq9GoHa8PPK1yNzTaxWjA6BFWp5Ua9JpXEMSS4s5i9tS0hOJtw==}
+    dev: true
+
+  /@types/node/14.18.9:
+    resolution: {integrity: sha512-j11XSuRuAlft6vLDEX4RvhqC0KxNxx6QIyMXNb0vHHSNPXTPeiy3algESWmOOIzEtiEL0qiowPU3ewW9hHVa7Q==}
     dev: true
 
   /@types/parse-json/4.0.0:
