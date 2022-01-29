@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+No unreleased changes.
+
+## 0.2.2
+
 - Re-adding node 12.20.0 and commonjs support.
 
 ## 0.2.1
