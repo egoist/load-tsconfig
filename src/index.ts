@@ -3,7 +3,8 @@ import fs from "fs"
 import { createRequire } from "module"
 import { jsoncParse } from "./utils"
 
-const require = createRequire(import.meta.url)
+const req =
+  typeof require === "function" ? require : createRequire(import.meta.url)
 
 const findUp = (
   name: string,
@@ -28,7 +29,7 @@ const resolveTsConfigFromFile = (cwd: string, filename: string) => {
 const resolveTsConfigFromExtends = (cwd: string, name: string) => {
   if (path.isAbsolute(name)) return fs.existsSync(name) ? name : null
   if (name.startsWith(".")) return findUp(name, cwd)
-  const id = require.resolve(name, { paths: [cwd] })
+  const id = req.resolve(name, { paths: [cwd] })
   return id
 }
 
