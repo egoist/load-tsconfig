@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+No unreleased changes.
+
+## 0.2.3
+
 - Use `globalThis.require`
 
 ## 0.2.2
