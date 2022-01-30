@@ -4,7 +4,9 @@ import { createRequire } from "module"
 import { jsoncParse } from "./utils"
 
 const req =
-  typeof require === "function" ? require : createRequire(import.meta.url)
+  typeof globalThis.require === "function"
+    ? globalThis.require
+    : createRequire(import.meta.url)
 
 const findUp = (
   name: string,
