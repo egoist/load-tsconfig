@@ -37,18 +37,30 @@ const resolveTsConfigFromExtends = (cwd: string, name: string) => {
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "MODULE_NOT_FOUND") {
       // config package did _not_ use pkg.main field
-      const pkgJsonPath = req.resolve(path.join(name, "package.json"), {
-        paths: [cwd],
-      })
-      const pkgManifest = req(pkgJsonPath) as { tsconfig?: string }
-      // use explicit pkg.tsconfig or implicit "index" {pkgroot}/tsconfig.json
-      id = req.resolve(
-        path.join(
-          name,
-          pkgManifest.tsconfig ? pkgManifest.tsconfig : "tsconfig.json",
-        ),
-        { paths: [cwd] },
-      )
+      const nameParts = name.split("/")
+      if (
+        (name.startsWith("@") && nameParts.length === 2) ||
+        nameParts.length === 1
+      ) {
+        // a module (with optional scope) lacking subpath
+        const pkgJsonPath = req.resolve(path.join(name, "package.json"), {
+          paths: [cwd],
+        })
+        const pkgManifest = req(pkgJsonPath) as { tsconfig?: string }
+        // use explicit pkg.tsconfig or implicit "index" {pkgroot}/tsconfig.json
+        id = req.resolve(
+          path.join(
+            name,
+            pkgManifest.tsconfig ? pkgManifest.tsconfig : "tsconfig.json",
+          ),
+          { paths: [cwd] },
+        )
+      } else {
+        // a subpath directory, all others are handled in try block
+        id = req.resolve([...nameParts, "tsconfig.json"].join("/"), {
+          paths: [cwd],
+        })
+      }
     } else {
       throw error
     }
