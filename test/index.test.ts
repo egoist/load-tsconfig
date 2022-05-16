@@ -26,6 +26,16 @@ test("extends package", () => {
   ])
 })
 
+test("extends package with explicit tsconfig", () => {
+  const loaded = loadTsConfig(fixture("extends-package-explicit"))
+  expect(loaded?.data.files).toEqual(["explicit"])
+})
+
+test("extends package with implicit tsconfig", () => {
+  const loaded = loadTsConfig(fixture("extends-package-implicit"))
+  expect(loaded?.data.files).toEqual(["implicit"])
+})
+
 test("find nearest file", () => {
   expect(loadTsConfig(fixture("find-nearest/nested/dir"))).not.toBe(null)
 })
