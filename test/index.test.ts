@@ -26,6 +26,48 @@ test("extends package", () => {
   ])
 })
 
+test("extends package with explicit tsconfig", () => {
+  const loaded = loadTsConfig(fixture("extends-package-explicit"))
+  expect(loaded?.data.files).toEqual(["explicit"])
+})
+
+test("extends package subpath file without extension", () => {
+  const loaded = loadTsConfig(
+    fixture("extends-package-explicit"),
+    "no-extn.json",
+  )
+  expect(loaded?.data.files).toEqual(["other-file"])
+})
+
+test("extends package subpath file with extension", () => {
+  const loaded = loadTsConfig(
+    fixture("extends-package-explicit"),
+    "subpath.json",
+  )
+  expect(loaded?.data.files).toEqual(["other-file"])
+})
+
+test("extends package with implicit tsconfig", () => {
+  const loaded = loadTsConfig(fixture("extends-package-implicit"))
+  expect(loaded?.data.files).toEqual(["implicit"])
+})
+
+test("extends package with implicit subpath directory", () => {
+  const loaded = loadTsConfig(
+    fixture("extends-package-implicit"),
+    "no-extn.json",
+  )
+  expect(loaded?.data.files).toEqual(["other-directory"])
+})
+
+test("extends package with implicit file subpath", () => {
+  const loaded = loadTsConfig(
+    fixture("extends-package-implicit"),
+    "subpath.json",
+  )
+  expect(loaded?.data.files).toEqual(["other-directory-config"])
+})
+
 test("find nearest file", () => {
   expect(loadTsConfig(fixture("find-nearest/nested/dir"))).not.toBe(null)
 })

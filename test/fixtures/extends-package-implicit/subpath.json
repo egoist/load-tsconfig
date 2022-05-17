@@ -1,0 +1,4 @@
+{
+  "extends": "tsconfig-pkg-implicit/other/config"
+}
+  
