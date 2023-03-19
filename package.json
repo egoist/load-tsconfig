@@ -5,6 +5,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "repo": "git@github.com:egoist/load-tsconfig.git",
   "files": [
     "dist"
   ],
