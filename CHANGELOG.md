@@ -4,6 +4,11 @@
 
 No unreleased changes.
 
+## 0.2.4
+
+- feat: support typescript 5 extends
+- fix: allow extends without .json suffix, closes #21
+
 ## 0.2.3
 
 - Use `globalThis.require`
