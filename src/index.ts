@@ -51,7 +51,6 @@ export type Loaded = {
 const loadTsConfigInternal = (
   dir = process.cwd(),
   name = "tsconfig.json",
-  files: string[] = [],
   isExtends = false,
 ): Loaded | null => {
   dir = path.resolve(dir)
@@ -60,8 +59,11 @@ const loadTsConfigInternal = (
     : resolveTsConfigFromFile(dir, name)
   if (!id) return null
 
-  const data = jsoncParse(fs.readFileSync(id, "utf-8"))
-  files.unshift(id)
+  const data: {
+    extends?: string | string[]
+    [k: string]: any
+  } = jsoncParse(fs.readFileSync(id, "utf-8"))
+
   const configDir = path.dirname(id)
   if (data.compilerOptions?.baseUrl) {
     data.compilerOptions.baseUrl = path.join(
@@ -69,26 +71,38 @@ const loadTsConfigInternal = (
       data.compilerOptions.baseUrl,
     )
   }
+
+  let extendsFiles: string[] = []
+
   if (data.extends) {
-    const parentConfig = loadTsConfigInternal(
-      configDir,
-      data.extends,
-      files,
-      true,
-    )
-    if (parentConfig) {
-      Object.assign(data, {
-        ...parentConfig.data,
-        ...data,
-        compilerOptions: {
-          ...parentConfig.data.compilerOptions,
-          ...data.compilerOptions,
-        },
-      })
+    const extendsList = Array.isArray(data.extends)
+      ? data.extends
+      : [data.extends]
+    const extendsData: Record<string, any> = {}
+    for (const name of extendsList) {
+      const parentConfig = loadTsConfigInternal(configDir, name, true)
+      if (parentConfig) {
+        Object.assign(extendsData, {
+          ...parentConfig?.data,
+          compilerOptions: {
+            ...extendsData.compilerOptions,
+            ...parentConfig?.data?.compilerOptions,
+          },
+        })
+        extendsFiles.push(...parentConfig.files)
+      }
     }
+    Object.assign(data, {
+      ...extendsData,
+      ...data,
+      compilerOptions: {
+        ...extendsData.compilerOptions,
+        ...data.compilerOptions,
+      },
+    })
   }
   delete data.extends
-  return { path: id, data, files }
+  return { path: id, data, files: [...extendsFiles, id] }
 }
 
 export const loadTsConfig = (dir: string, name?: string) =>

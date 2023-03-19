@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "strict": false
+  },
+  "include": ["foo"]
+}

@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build-fast": "tsup src/index.ts --format esm,cjs --target node12.20.0",
-    "build": "pnpm build-fast -- --dts-resolve",
+    "build": "pnpm build-fast --dts-resolve",
     "test": "npm run build-fast && vitest run",
     "prepublishOnly": "pnpm build"
   },

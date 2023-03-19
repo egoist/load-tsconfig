@@ -34,3 +34,8 @@ test("extends file without ext", () => {
   const config = loadTsConfig(fixture("extends-file-without-ext"))
   expect(config?.data).toEqual({ compilerOptions: { strict: true } })
 })
+
+test("multiple extends", () => {
+  const config = loadTsConfig(fixture("multiple-extends"))
+  console.log(config)
+})
