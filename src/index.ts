@@ -3,10 +3,10 @@ import fs from "fs"
 import { createRequire } from "module"
 import { jsoncParse } from "./utils"
 
-const req =
-  typeof globalThis.require === "function"
-    ? globalThis.require
-    : createRequire(import.meta.url)
+// Injected by TSUP
+declare const TSUP_FORMAT: "esm" | "cjs"
+
+const req = TSUP_FORMAT === "esm" ? createRequire(import.meta.url) : require
 
 const findUp = (
   name: string,
