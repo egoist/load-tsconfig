@@ -29,3 +29,8 @@ test("extends package", () => {
 test("find nearest file", () => {
   expect(loadTsConfig(fixture("find-nearest/nested/dir"))).not.toBe(null)
 })
+
+test("extends file without ext", () => {
+  const config = loadTsConfig(fixture("extends-file-without-ext"))
+  expect(config?.data).toEqual({ compilerOptions: { strict: true } })
+})

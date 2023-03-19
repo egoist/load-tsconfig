@@ -17,6 +17,10 @@ const findUp = (
   while (dir !== stopDir) {
     const file = path.join(dir, name)
     if (fs.existsSync(file)) return file
+    if (!file.endsWith(".json")) {
+      const fileWithExt = file + ".json"
+      if (fs.existsSync(fileWithExt)) return fileWithExt
+    }
     dir = path.dirname(dir)
   }
   return null
