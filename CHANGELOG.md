@@ -4,6 +4,10 @@
 
 No unreleased changes.
 
+## 0.2.5
+
+- fix: properly handle `require`
+
 ## 0.2.4
 
 - feat: support typescript 5 extends
