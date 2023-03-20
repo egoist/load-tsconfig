@@ -35,7 +35,40 @@ const resolveTsConfigFromFile = (cwd: string, filename: string) => {
 const resolveTsConfigFromExtends = (cwd: string, name: string) => {
   if (path.isAbsolute(name)) return fs.existsSync(name) ? name : null
   if (name.startsWith(".")) return findUp(name, cwd)
-  const id = req.resolve(name, { paths: [cwd] })
+  let id: string | null = null
+  try {
+    id = req.resolve(name, { paths: [cwd] })
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "MODULE_NOT_FOUND") {
+      // config package did _not_ use pkg.main field
+      const nameParts = name.split("/")
+      if (
+        (name.startsWith("@") && nameParts.length === 2) ||
+        nameParts.length === 1
+      ) {
+        // a module (with optional scope) lacking subpath
+        const pkgJsonPath = req.resolve(path.join(name, "package.json"), {
+          paths: [cwd],
+        })
+        const pkgManifest = req(pkgJsonPath) as { tsconfig?: string }
+        // use explicit pkg.tsconfig or implicit "index" {pkgroot}/tsconfig.json
+        id = req.resolve(
+          path.join(
+            name,
+            pkgManifest.tsconfig ? pkgManifest.tsconfig : "tsconfig.json",
+          ),
+          { paths: [cwd] },
+        )
+      } else {
+        // a subpath directory, all others are handled in try block
+        id = req.resolve([...nameParts, "tsconfig.json"].join("/"), {
+          paths: [cwd],
+        })
+      }
+    } else {
+      throw error
+    }
+  }
   return id
 }
 
