@@ -35,6 +35,28 @@ test("extends file without ext", () => {
   expect(config?.data).toEqual({ compilerOptions: { strict: true } })
 })
 
+test("extends module without ext", () => {
+  const config = loadTsConfig(fixture("extends-module-without-ext"))
+  expect(config?.data).toMatchInlineSnapshot(`
+    {
+      "$schema": "https://json.schemastore.org/tsconfig",
+      "compilerOptions": {
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "lib": [
+          "es2022",
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "strict": true,
+        "target": "es2022",
+      },
+      "display": "Node 18",
+    }
+  `)
+})
+
 test("multiple extends", () => {
   const config = loadTsConfig(fixture("multiple-extends"))
   console.log(config)

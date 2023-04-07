@@ -35,7 +35,8 @@ const resolveTsConfigFromFile = (cwd: string, filename: string) => {
 const resolveTsConfigFromExtends = (cwd: string, name: string) => {
   if (path.isAbsolute(name)) return fs.existsSync(name) ? name : null
   if (name.startsWith(".")) return findUp(name, cwd)
-  const id = req.resolve(name, { paths: [cwd] })
+  const nameWithExt = name.endsWith(".json") ? name : `${name}/tsconfig.json`
+  const id = req.resolve(nameWithExt, { paths: [cwd] })
   return id
 }
 
