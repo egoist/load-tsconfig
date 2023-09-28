@@ -30,7 +30,7 @@
     "kanpai": "0.11.0",
     "prettier": "2.8.4",
     "strip-json-comments": "5.0.0",
-    "tsup": "6.6.3",
+    "tsup": "7.2.0",
     "typescript": "5.0.2",
     "vitest": "0.29.3"
   },
