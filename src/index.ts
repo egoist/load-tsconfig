@@ -32,11 +32,17 @@ const resolveTsConfigFromFile = (cwd: string, filename: string) => {
   return findUp(filename, cwd)
 }
 
-const resolveTsConfigFromExtends = (cwd: string, name: string) => {
+const resolveTsConfigFromExtends = (cwd: string, name: string) => {  
   if (path.isAbsolute(name)) return fs.existsSync(name) ? name : null
   if (name.startsWith(".")) return findUp(name, cwd)
-  const id = req.resolve(name, { paths: [cwd] })
-  return id
+  try {
+    const id = req.resolve(name, { paths: [cwd] })
+    return id
+  }
+  catch {
+    const id = req.resolve(name+'/tsconfig.json', { paths: [cwd] })
+    return id
+  }
 }
 
 export type Loaded = {
